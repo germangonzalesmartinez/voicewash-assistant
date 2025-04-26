@@ -14,6 +14,7 @@ def register_entry():
     # Verifica si el vehículo ya está registrado como ingresado
     if any(vehicle['plate'] == plate for vehicle in vehicles_in):
         assistant.speak(f"El vehículo con placa {spelled_plate} ya se encuentra en proceso de lavado en el lavaautos LAVA YA.")
+        print(f"El vehículo con placa {spelled_plate} ya se encuentra en proceso de lavado en el lavaautos LAVA YA.")
         return  # Finaliza si ya está ingresado
 
     # Si no está registrado, pide el nombre del propietario
@@ -27,10 +28,13 @@ def register_entry():
     spelled_plate = assistant.spell_out(plate)  # Vuelve a deletrear la placa para confirmación
     assistant.speak(f"Vehículo con placa {spelled_plate} y propietario {owner} registrado exitosamente para lavado.")
 
+    print(f"Vehículo con placa {spelled_plate} y propietario {owner} registrado exitosamente para lavado.")
+
 # Función para registrar la salida de un vehículo
 def register_exit():
     assistant.speak("Por favor, dime la placa del vehículo que va a salir.")
     plate = assistant.listen().upper()  # Escucha y convierte a mayúsculas
+    spelled_plate = assistant.spell_out(plate)  # Vuelve a deletrear la placa para confirmación
 
     # Busca el vehículo en la lista de ingresados
     vehicle = next((v for v in vehicles_in if v['plate'] == plate), None)
@@ -38,9 +42,11 @@ def register_exit():
     if vehicle:
         vehicles_in.remove(vehicle)      # Lo elimina de la lista de ingresados
         vehicles_out.append(vehicle)     # Lo agrega a la lista de salidos
-        assistant.speak(f"Vehículo con placa {plate} ha salido del lavaautos. ¡Hasta pronto!")
+        assistant.speak(f"Vehículo con placa {spelled_plate} ha salido del lavaautos. ¡Hasta pronto!")
+        print(f"Vehículo con placa {spelled_plate} ha salido del lavaautos. ¡Hasta pronto!")
     else:
-        assistant.speak(f"No encontré el vehículo con placa {plate} en el sistema.")  # Si no se encuentra
+        assistant.speak(f"No encontré el vehículo con placa {spelled_plate} en el sistema.")  # Si no se encuentra
+        print(f"No encontré el vehículo con placa {spelled_plate} en el sistema.")
 
 # Función para mostrar las estadísticas del día
 def show_stats():
@@ -48,6 +54,7 @@ def show_stats():
 
     if total == 0:
         assistant.speak("No hay vehículos registrados hoy.")  # Si no hay datos
+        print("No hay vehículos registrados hoy.")
         return
 
     # Calcula los porcentajes de vehículos en el sitio y los que ya salieron
@@ -56,5 +63,7 @@ def show_stats():
 
     # Informa los resultados con voz
     assistant.speak(f"Actualmente hay {len(vehicles_in)} vehículos en el lavaautos, lo que representa el {percent_in:.2f}% del total.")
+    print(f"Actualmente hay {len(vehicles_in)} vehículos en el lavaautos, lo que representa el {percent_in:.2f}% del total.")
     assistant.speak(f"{len(vehicles_out)} vehículos ya han salido, equivalente al {percent_out:.2f}%.")
+    print(f"{len(vehicles_out)} vehículos ya han salido, equivalente al {percent_out:.2f}%.")
 

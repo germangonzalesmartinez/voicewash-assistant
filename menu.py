@@ -17,6 +17,7 @@ def show():
         elif action == 'salir':
             # Despedida con voz y salida del bucle
             assistant.speak("Me dio gusto acompañarte el día de hoy. ¡Hasta luego!")
+            print("Me dio gusto acompañarte el día de hoy. ¡Hasta luego!")
             break  
 
 # Función que presenta el menú de opciones mediante voz y espera de voz hablada del usuario
@@ -44,4 +45,5 @@ def welcome_menu():
     else:
         # Si no se entendió la respuesta, se informa al usuario y se repite el menú
         assistant.speak("No entendí tu respuesta. Por favor, intenta de nuevo.")
+        print("No entendí tu respuesta. Por favor, intenta de nuevo.")
         return welcome_menu()  # Volver a mostrar el menú
